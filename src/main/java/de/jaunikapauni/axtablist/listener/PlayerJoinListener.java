@@ -22,16 +22,6 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
         Player p = e.getPlayer();
-
-        ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
-        Scoreboard scoreboard = scoreboardManager.getNewScoreboard();
-
-        Objective objective = scoreboard.registerNewObjective("tablist", "dummy");
-        objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
-        objective.getScore(p.getName());
-
-        p.setScoreboard(scoreboard);
-        p.setPlayerListHeader(PlaceholderAPI.setPlaceholders(p, reference.getMessage("tablist.header")));
-        p.setPlayerListFooter(PlaceholderAPI.setPlaceholders(p, reference.getMessage("tablist.footer")));
+        reference.setScoreboard(p);
     }
 }
