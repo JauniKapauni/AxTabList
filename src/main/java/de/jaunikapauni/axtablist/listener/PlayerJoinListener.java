@@ -1,6 +1,7 @@
 package de.jaunikapauni.axtablist.listener;
 
 import de.jaunikapauni.axtablist.AxTabList;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,7 +31,7 @@ public class PlayerJoinListener implements Listener {
         objective.getScore(p.getName());
 
         p.setScoreboard(scoreboard);
-        p.setPlayerListHeader(reference.getMessage("tablist.header"));
-        p.setPlayerListFooter(reference.getMessage("tablist.footer"));
+        p.setPlayerListHeader(PlaceholderAPI.setPlaceholders(p, reference.getMessage("tablist.header")));
+        p.setPlayerListFooter(PlaceholderAPI.setPlaceholders(p, reference.getMessage("tablist.footer")));
     }
 }
