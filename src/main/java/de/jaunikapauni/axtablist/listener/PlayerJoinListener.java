@@ -23,5 +23,6 @@ public class PlayerJoinListener implements Listener {
     public void onJoin(PlayerJoinEvent e){
         Player p = e.getPlayer();
         reference.setScoreboard(p);
+        reference.startTabListUpdater(p);
     }
 }
