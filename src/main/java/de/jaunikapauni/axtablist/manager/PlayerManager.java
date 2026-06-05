@@ -6,10 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.scoreboard.*;
 
 import java.io.File;
 
@@ -39,9 +36,10 @@ public class PlayerManager {
         ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
         Scoreboard scoreboard = scoreboardManager.getNewScoreboard();
 
-        Objective objective = scoreboard.registerNewObjective("tablist", "dummy");
-        objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
-        objective.getScore(p.getName());
+        Team team = scoreboard.registerNewTeam("1");
+        team.setPrefix(PlaceholderAPI.setPlaceholders(p, getMessage("tablist.prefix")));
+        team.setSuffix(PlaceholderAPI.setPlaceholders(p, getMessage("tablist.suffix")));
+        team.addEntry(p.getName());
 
         p.setScoreboard(scoreboard);
         p.setPlayerListHeader(PlaceholderAPI.setPlaceholders(p, getMessage("tablist.header")));
