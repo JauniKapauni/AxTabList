@@ -1,22 +1,21 @@
+
 plugins {
     id("java-library")
-    id("com.gradleup.shadow") version "9.4.1"
-    id("xyz.jpenilla.run-paper") version "3.0.2"
+    id("com.gradleup.shadow") version "9.4.2"
+    id("xyz.jpenilla.run-velocity") version "3.0.2"
 }
 
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
-    maven("https://repo.extendedclip.com/releases/")
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:26.1.2.build.+")
-    compileOnly("me.clip:placeholderapi:2.11.7")
+    compileOnly("com.velocitypowered:velocity-api:3.5.0-SNAPSHOT")
 }
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(25)
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
 }
 
 tasks {
@@ -24,17 +23,16 @@ tasks {
         dependsOn(shadowJar)
     }
 
-    runServer {
-        // Configure the Minecraft version for our task.
-        // This is the only required configuration besides applying the plugin.
-        // Your plugin's jar (or shadowJar if present) will be used automatically.
-        minecraftVersion("26.1.2")
-        jvmArgs("-Xms2G", "-Xmx2G", "-Dcom.mojang.eula.agree=true")
-    }
+  runVelocity {
+    // Configure the Velocity version for our task.
+    // This is the only required configuration besides applying the plugin.
+    // Your plugin's jar (or shadowJar if present) will be used automatically.
+    velocityVersion("3.5.0-SNAPSHOT")
+  }
 
     processResources {
-        val props = mapOf("version" to version, "description" to project.description)
-        filesMatching("plugin.yml") {
+        val props = mapOf("version" to version , "description" to project.description )
+        filesMatching("velocity-plugin.json") {
             expand(props)
         }
     }
