@@ -28,6 +28,7 @@ public final class AxTabList extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         playerManager.createLangFile();
         getCommand("reload").setExecutor(new ReloadCommand(this));
+        playerManager.startTabListUpdater();
     }
 
     @Override

@@ -57,7 +57,11 @@ public class PlayerManager {
         p.setPlayerListFooter(PlaceholderAPI.setPlaceholders(p, getMessage("tablist.footer")));
     }
 
-    public void startTabListUpdater(Player p){
-        Bukkit.getScheduler().runTaskTimer(reference, () -> updateScoreboard(p), 20L, 20L);
+    public void startTabListUpdater(){
+        Bukkit.getScheduler().runTaskTimer(reference, () -> {
+            for(Player p : Bukkit.getOnlinePlayers()){
+                updateScoreboard(p);
+            }
+        }, 20L, 20L);
     }
 }
