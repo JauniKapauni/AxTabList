@@ -22,7 +22,7 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
         Player p = e.getPlayer();
-        reference.setScoreboard(p);
-        reference.startTabListUpdater(p);
+        reference.getPlayerManager().setScoreboard(p);
+        reference.getPlayerManager().startTabListUpdater(p);
     }
 }

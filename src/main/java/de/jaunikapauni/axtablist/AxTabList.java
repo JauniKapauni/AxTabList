@@ -2,6 +2,7 @@ package de.jaunikapauni.axtablist;
 
 import de.jaunikapauni.axtablist.command.ReloadCommand;
 import de.jaunikapauni.axtablist.listener.PlayerJoinListener;
+import de.jaunikapauni.axtablist.manager.PlayerManager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -16,59 +17,21 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import java.io.File;
 
 public final class AxTabList extends JavaPlugin {
-
-    File langFile;
-    FileConfiguration langConfig;
-
-
+    PlayerManager playerManager;
+    public PlayerManager getPlayerManager(){
+        return playerManager;
+    }
     @Override
     public void onEnable() {
         // Plugin startup logic
+        playerManager = new PlayerManager(this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
-        createLangFile();
+        playerManager.createLangFile();
         getCommand("reload").setExecutor(new ReloadCommand(this));
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-    }
-
-    public void createLangFile(){
-        langFile = new File(getDataFolder(), "lang.yml");
-        if (!langFile.exists()) {
-            saveResource("lang.yml", false);
-        }
-        langConfig = YamlConfiguration.loadConfiguration(langFile);
-    }
-
-    public String getMessage(String path) {
-        return langConfig.getString(path);
-    }
-
-    public void setScoreboard(Player p){
-        ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
-        Scoreboard scoreboard = scoreboardManager.getNewScoreboard();
-
-        Objective objective = scoreboard.registerNewObjective("tablist", "dummy");
-        objective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
-        objective.getScore(p.getName());
-
-        p.setScoreboard(scoreboard);
-        p.setPlayerListHeader(PlaceholderAPI.setPlaceholders(p, getMessage("tablist.header")));
-        p.setPlayerListFooter(PlaceholderAPI.setPlaceholders(p, getMessage("tablist.footer")));
-    }
-
-    public void reloadLangFile(){
-        langConfig = YamlConfiguration.loadConfiguration(langFile);
-    }
-
-    public void updateScoreboard(Player p){
-        p.setPlayerListHeader(PlaceholderAPI.setPlaceholders(p, getMessage("tablist.header")));
-        p.setPlayerListFooter(PlaceholderAPI.setPlaceholders(p, getMessage("tablist.footer")));
-    }
-
-    public void startTabListUpdater(Player p){
-        Bukkit.getScheduler().runTaskTimer(this, () -> updateScoreboard(p), 20L, 20L);
     }
 }
